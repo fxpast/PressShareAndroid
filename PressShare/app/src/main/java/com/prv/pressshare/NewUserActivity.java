@@ -88,7 +88,7 @@ public class NewUserActivity extends AppCompatActivity {
 
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(email) || !isEmailValid(email)) {
+        if (TextUtils.isEmpty(email) || !isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
@@ -96,7 +96,7 @@ public class NewUserActivity extends AppCompatActivity {
 
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) || !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -104,7 +104,7 @@ public class NewUserActivity extends AppCompatActivity {
 
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(checkpwd) || !isCheckPwd(password, checkpwd)) {
+        if (TextUtils.isEmpty(checkpwd) || !isCheckPwd(password, checkpwd)) {
             mPasswordView.setError(getString(R.string.error_invalid_checkpwd));
             focusView = mPasswordView;
             cancel = true;

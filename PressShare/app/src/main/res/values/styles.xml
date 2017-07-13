@@ -20,8 +20,7 @@
     </style>
 
 
-    <style name="AppActionBarStyle"
-        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+    <style name="AppActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@color/theme_color_primary</item>
 
         <!-- Support library compatibility -->

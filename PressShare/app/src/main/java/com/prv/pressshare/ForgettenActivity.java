@@ -73,7 +73,7 @@ public class ForgettenActivity extends AppCompatActivity {
 
 
         // Check for a valid email, if the user entered one.
-        if (!TextUtils.isEmpty(email) || !isEmailValid(email)) {
+        if (TextUtils.isEmpty(email) || !isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;

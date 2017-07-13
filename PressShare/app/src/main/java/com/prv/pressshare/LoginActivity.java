@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +15,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -23,17 +37,6 @@ import android.widget.TextView;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "test1:test1", "test2:test2"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private EditText mPseudoView;
@@ -42,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
@@ -102,11 +106,6 @@ public class LoginActivity extends AppCompatActivity {
         mProgressView = findViewById(R.id.login_progress);
     }
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid pseudo, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
 
     private void attemptHelp() {
 
@@ -130,12 +129,12 @@ public class LoginActivity extends AppCompatActivity {
 
         startActivity(new Intent(this, NewUserActivity.class));
 
+
     }
 
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
+
+
 
         // Reset errors.
         mPseudoView.setError(null);
@@ -149,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) || !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -162,6 +161,8 @@ public class LoginActivity extends AppCompatActivity {
             cancel = true;
         }
 
+
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -170,10 +171,77 @@ public class LoginActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(pseudo, password);
-            mAuthTask.execute((Void) null);
+            login(pseudo, password);
+
         }
     }
+
+    private void login(final String pseudo, final String password){
+        //Getting values from edit texts
+
+
+
+        //Creating a string request
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.LOGIN_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //If we are getting success from server
+
+                        JSONObject result = null;
+                        try {
+                             result = (JSONObject) new JSONTokener(response).nextValue();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        String success = null;
+                        try {
+                            success = (String) result.get(Config.LOGIN_SUCCESS);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                            if(success.equals("1")){
+
+                                startActivity(new Intent(LoginActivity.this, TabMainActivity.class));
+
+                            }else{
+                                //If the server response is not success
+                                //Displaying an error message on toast
+                                Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_LONG).show();
+
+                            }
+                            showProgress(false);
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //You can handle error here if you want
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                //Adding parameters to request
+                params.put(Config.KEY_PSEUDO, pseudo);
+                params.put(Config.KEY_PASSWORD, password);
+                params.put(Config.KEY_LANG, "us");
+
+                //returning parameter
+                return params;
+            }
+        };
+
+        //Adding the string request to the queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
 
     private boolean isPseudoValid(String pseudo) {
         //TODO: Replace this with your own logic
@@ -214,64 +282,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mPseudo;
-        private final String mPassword;
 
-        UserLoginTask(String pseudo, String password) {
-            mPseudo = pseudo;
-            mPassword = password;
-        }
 
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mPseudo)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                //finish();
-                startActivity(new Intent(LoginActivity.this, TabMainActivity.class));
-
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
 
 }
 

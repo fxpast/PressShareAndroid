@@ -8,4 +8,13 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+
+
+    <dimen name="info_window_width">100dp</dimen>
+    <dimen name="info_window_height">120dp</dimen>
+
+    <dimen name="marker_offset_x">5dp</dimen>
+    <dimen name="marker_offset_y">39dp</dimen>
+
+
 </resources>

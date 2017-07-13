@@ -26,7 +26,7 @@ public class TabMainActivity extends TabActivity {
 	{
 		addTab("Maps", R.drawable.tab_maps_legacy, MapsActivity.class);
 		addTab("List", R.drawable.tab_list_legacy, ListActivity.class);
-		addTab("Settings", R.drawable.tab_settings_legacy, SettingsActivity.class);
+		addTab("Settings", R.drawable.tab_settings_legacy, ParamActivity.class);
 
 	}
 	
