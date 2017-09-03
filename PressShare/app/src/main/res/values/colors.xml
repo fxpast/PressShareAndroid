@@ -1,24 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-
-    <color name="tabMedium">#2B2B2B</color>
-    <color name="tabDark">#000000</color>
-    <color name="tabTransparent">#10ffffff</color>
-
-
-    <color name="theme_color_primary">#1c9359</color>
-    <color name="theme_color_primary_light">#3aaf75</color>
-    <color name="theme_color_accent">#084e43</color>
-
-
-    <color name="tab_border">#a7a7aa</color>
-    <color name="colorBackground">#147fbb</color>
-    <color name="tab_background">#f6f6f7</color>
-
-
-
+    <color name="white">#FFFFFF</color>
+    <color name="colorPrimary">#cfb46a</color>
+    <color name="colorPrimaryDark">#ae7228</color>
+    <color name="floating_action_button_color">#ef363e</color>
+    <color name="colorButton">#0b2ec9</color>
+    <color name="search_background">#0000</color>
+    <color name="light_grey">#c5cdd9</color>
+    <color name="strong_grey">#50545A</color>
 </resources>
-

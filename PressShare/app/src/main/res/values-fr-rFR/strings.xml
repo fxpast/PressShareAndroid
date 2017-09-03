@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PressShare</string>
+    <string name="pseudo">Pseudo</string>
+    <string name="anonyme">Invité</string>
+    <string name="password">Mot de passe</string>
+    <string name="lostPassword">Oublié?</string>
+    <string name="signin">S\'identifier</string>
+    <string name="signup">Nouveau sur PressShare? Ouvrez un compte</string>
+    <string name="connectToPress">Connexion à PressShare</string>
+    <string name="errorLogin">Erreur, identifiant incorrect</string>
+    <string name="errorPassword">Erreur, mot de passe incorrect</string>
+    <string name="lang">fr</string>
+    <string name="errorConnection">Connexion internet invalide!</string>
+    <string name="errorUpdateTrans">impossible de modifier la transaction</string>
+    <string name="errorAddTrans">Impossible d\'ajouter la transaction</string>
+    <string name="impossibleDeldPr">impossible de supprimer le produit</string>
+    <string name="impossibleDelCard">impossible de supprimer la carte</string>
+    <string name="impossibleDeldMes">impossible de supprimer le message</string>
+    <string name="errorAddOperat">Impossible d\'ajouter l\'opération</string>
+    <string name="map">Carte</string>
+    <string name="list">Liste</string>
+    <string name="settings">Paramètres</string>
+    <string name="historical">Historique</string>
+    <string name="mylist">Mes items</string>
+    <string name="no_location_detected">
+        Aucune localisation détectée. Assurez-vous d\'activer la localisation sur l\'appareil.</string>
+    <string name="permission_rationale">La permission de localisation est nécessaire pour le bon fonctionnement</string>
+    <string name="permission_denied_explanation">La permission est refusée, mais est necessaire pour bon fonctionnement.</string>
+    <string name="tapALoc">Taper un lieu</string>
+    <string name="no_location_data_provided">Aucune localisation fournie</string>
+    <string name="myCB">Mes cartes bancaires</string>
+    <string name="mySubscrit">Mon abonnement</string>
+    <string name="editProfil">Modifier mon profil</string>
+    <string name="runTransac">Liste des transactions</string>
+    <string name="connectInfo">informations de connexion</string>
+    <string name="termsOfUse">Conditions d\'utilisation</string>
+    <string name="star">étoiles</string>
+</resources>
+
