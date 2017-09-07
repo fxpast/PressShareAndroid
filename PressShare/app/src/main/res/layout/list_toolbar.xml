@@ -6,9 +6,6 @@
     android:id="@+id/IBListToolbar"
     android:layout_height="?attr/actionBarSize"
     android:layout_width="match_parent"
-    android:layout_marginTop="@dimen/gap"
-    android:layout_marginLeft="@dimen/gap"
-    android:layout_marginRight="@dimen/gap"
     android:elevation="2dp"
     android:textAppearance="@color/abc_primary_text_material_dark"
     android:background="@drawable/toolbar_custom_background"
@@ -23,58 +20,49 @@
         android:orientation="horizontal"
         >
 
-        <ImageButton
-            android:id="@+id/IBListLoop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_search_black_24dp"
-
-            />
-
-
-
 
         <ImageButton
             android:id="@+id/IBListHelp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="46dp"
+            android:layout_height="41dp"
             android:layout_weight="1"
+            android:background="@color/cardview_light_background"
             android:layout_gravity="center_horizontal"
-            app:srcCompat="@android:drawable/ic_menu_help"
-            app:layout_constraintRight_toLeftOf="@+id/IBListLoop"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/help"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="16dp" />
 
-            />
 
 
-        <TextView
-            android:id="@+id/IBListTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+        <EditText
+            android:id="@+id/IBListSearchPro"
+            android:layout_width="163dp"
+            android:layout_height="32dp"
             android:layout_gravity="left"
             android:layout_weight="1"
             android:background="@color/search_background"
-            android:text=""
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:hint="@string/TapAProd"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintLeft_toRightOf="@+id/IBListLogout"
-
             app:layout_constraintRight_toLeftOf="@+id/IBListHelp"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteY="3dp"
+            tools:layout_editor_absoluteX="84dp" />
 
 
 
         <ImageButton
             android:id="@+id/IBListLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="46dp"
+            android:layout_height="41dp"
             android:layout_weight="1"
+            android:background="@color/cardview_light_background"
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/shutdown"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -82,10 +70,6 @@
 
 
             />
-
-
-
-
 
 
     </android.support.constraint.ConstraintLayout>

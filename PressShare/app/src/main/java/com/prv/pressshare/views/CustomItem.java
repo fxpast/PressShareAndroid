@@ -50,11 +50,12 @@ public class CustomItem extends ArrayAdapter {
 
         Product product =(Product) getItem(position);
 
+
         TextView mIBListItemText =(TextView) customView.findViewById(R.id.IBListItemText);
          mIBListItemText.setText(product.getProd_nom()+" (user:"+product.getProd_by_user()+")");
 
        final ImageView mIBListItemImage = (ImageView) customView.findViewById(R.id.IBListItemImage);
-       final ProgressBar  mIBListActivity = (ProgressBar) customView.findViewById(R.id.IBListActivity);
+       final ProgressBar  mIBListActivity = (ProgressBar) customView.findViewById(R.id.IBListProgressBar);
 
 
         String  mUrl = mConfig.getUrlServer()+"/images/"+product.getProd_imageUrl()+".jpg";

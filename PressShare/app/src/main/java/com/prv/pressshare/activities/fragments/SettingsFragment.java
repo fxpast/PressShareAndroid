@@ -13,8 +13,6 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.prv.pressshare.R;
 import com.prv.pressshare.utils.Config;
 import com.prv.pressshare.utils.MyTools;

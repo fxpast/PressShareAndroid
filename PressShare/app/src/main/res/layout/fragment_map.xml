@@ -44,7 +44,7 @@
         app:backgroundTint="#FF0000"
         app:layout_constraintBottom_toBottomOf="@+id/IBMap"
         android:layout_marginBottom="63dp"
-        android:layout_marginRight="55dp"
+        android:layout_marginRight="43dp"
         app:layout_constraintRight_toRightOf="@+id/IBMap" />
 
 </android.support.constraint.ConstraintLayout>

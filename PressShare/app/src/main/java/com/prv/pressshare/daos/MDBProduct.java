@@ -38,7 +38,6 @@ public class MDBProduct {
     private static MDBProduct  mInstance;
 
 
-
     public void  getProduct(final Context context, final int prod_id, final MDBInterfaceArray completion) {
 
 

@@ -6,9 +6,6 @@
     android:id="@+id/IBSetToolbar"
     android:layout_height="?attr/actionBarSize"
     android:layout_width="match_parent"
-    android:layout_marginTop="@dimen/gap"
-    android:layout_marginLeft="@dimen/gap"
-    android:layout_marginRight="@dimen/gap"
     android:elevation="2dp"
     android:textAppearance="@color/abc_primary_text_material_dark"
     android:background="@drawable/toolbar_custom_background"
@@ -24,17 +21,21 @@
         >
 
 
+
         <ImageButton
             android:id="@+id/IBSetHelp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="46dp"
+            android:layout_height="41dp"
             android:layout_weight="1"
+            android:background="@color/cardview_light_background"
             android:layout_gravity="center_horizontal"
-            app:srcCompat="@android:drawable/ic_menu_help"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-
-            />
+            app:srcCompat="@drawable/help"
+            android:layout_marginRight="16dp"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="290dp" />
 
 
         <TextView
@@ -58,16 +59,18 @@
 
         <ImageButton
             android:id="@+id/IBSetLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="46dp"
+            android:layout_height="41dp"
             android:layout_weight="1"
+            android:background="@color/cardview_light_background"
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/shutdown"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
 
 
-            />
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp" />
 
 
 

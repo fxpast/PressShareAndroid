@@ -36,5 +36,16 @@
     <string name="connectInfo">informations de connexion</string>
     <string name="termsOfUse">Conditions d\'utilisation</string>
     <string name="star">étoiles</string>
+    <string name="TapAProd">Taper un produit</string>
+    <string name="seeOtherProduct">Voir les autres produits</string>
+    <string name="save">Valider</string>
+    <string name="description">nom</string>
+    <string name="price">prix</string>
+    <string name="comment">commentaire</string>
+    <string name="availableTime">Temps dispo</string>
+    <string name="state">Etat du produit :</string>
+    <string name="allowExch">Possibilité de partage (sans rémunération)?</string>
+    <string name="findOnMap">Trouver sur la carte</string>
+    <string name="myPosition">Ma position</string>
 </resources>
 

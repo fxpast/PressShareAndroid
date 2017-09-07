@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    tools:context="com.prv.pressshare.activities.MapProdActivity">
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cardview_light_background"
+        android:weightSum="1">
+
+        <ImageButton
+            android:id="@+id/IBProdMapClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/close"
+            android:layout_weight="0.05" />
+
+        <Button
+            android:id="@+id/IBProdMapValid"
+            style="@style/Button"
+            android:layout_width="69dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center|right"
+            android:gravity="center"
+            android:text="@string/save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="7dp"
+            tools:layout_editor_absoluteY="3dp"
+            tools:layout_editor_absoluteX="292dp"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+    </Toolbar>
+
+
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/IBProdMapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+</LinearLayout>

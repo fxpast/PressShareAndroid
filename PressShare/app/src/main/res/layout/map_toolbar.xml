@@ -6,9 +6,6 @@
     android:id="@+id/IBMapToolbar"
     android:layout_height="?attr/actionBarSize"
     android:layout_width="match_parent"
-    android:layout_marginTop="@dimen/gap"
-    android:layout_marginLeft="@dimen/gap"
-    android:layout_marginRight="@dimen/gap"
     android:elevation="2dp"
     android:textAppearance="@color/abc_primary_text_material_dark"
     android:background="@drawable/toolbar_custom_background"
@@ -25,67 +22,72 @@
 
         <ImageButton
             android:id="@+id/IBMapRefresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="26dp"
+            android:layout_height="24dp"
             android:layout_weight="1"
+            android:background="@color/cardview_light_background"
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/ic_refresh_black_24dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-
-            />
-
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintVertical_bias="1.0"
+            android:layout_marginRight="6dp" />
 
 
         <ImageButton
             android:id="@+id/IBMapHelp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="24dp"
             android:layout_weight="1"
+            android:background="@color/cardview_light_background"
             android:layout_gravity="center_horizontal"
-            app:srcCompat="@android:drawable/ic_menu_help"
-            app:layout_constraintRight_toLeftOf="@+id/IBMapRefresh"
             app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/help"
+            app:layout_constraintRight_toLeftOf="@+id/IBMapRefresh"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="9dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintVertical_bias="1.0" />
 
-            />
+
 
         <EditText
             android:id="@+id/IBMapSearchLoc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="152dp"
+            android:layout_height="31dp"
             android:layout_gravity="left"
             android:layout_weight="1"
             android:background="@color/search_background"
             android:hint="@string/tapALoc"
             android:imeOptions="actionSearch"
             android:inputType="text"
-            app:layout_constraintLeft_toRightOf="@+id/IBMapLogout"
             app:layout_constraintRight_toLeftOf="@+id/IBMapHelp"
 
 
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.505" />
+            app:layout_constraintVertical_bias="1.0"
+            android:layout_marginRight="49dp"
+            app:layout_constraintLeft_toRightOf="@+id/IBMapLogout"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintHorizontal_bias="0.796" />
 
 
         <ImageButton
             android:id="@+id/IBMapLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
             android:layout_weight="1"
+            android:background="@color/cardview_light_background"
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/shutdown"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-
-
-            />
-
-
-
-
-
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="2dp" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.Toolbar>

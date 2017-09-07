@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mIBActivity = (ProgressBar) findViewById(R.id.IBActivity);
+        mIBActivity = (ProgressBar) findViewById(R.id.IBProgressBar);
 
         mIBLogin = (Button) findViewById(R.id.IBLogin);
         mIBLogin.setPaintFlags(mIBLogin.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);

@@ -2,7 +2,9 @@ package com.prv.pressshare.activities.fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -10,11 +12,14 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -22,6 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.prv.pressshare.activities.ProductActivity;
 import com.prv.pressshare.daos.MDBCapital;
 import com.prv.pressshare.daos.MDBInterfaceArray;
 import com.prv.pressshare.daos.MDBProduct;
@@ -34,7 +40,8 @@ import com.prv.pressshare.utils.GeoLocInterface;
 import com.prv.pressshare.utils.MainThreadInterface;
 import com.prv.pressshare.utils.MyTools;
 import com.prv.pressshare.R;
-
+import com.prv.pressshare.views.ImageDownloader;
+import com.prv.pressshare.views.ImageInterface;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,80 +61,18 @@ import org.json.JSONObject;
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
 
+    private static final int DEFAULT_ZOOM = 13;
     private MapView mIBMap;
     private Config mConfig;
     public Double mlatUser = 0.0;
     public Double mlonUser = 0.0;
     private OnCommunicateWithActivity mCallback;
-    private int mProdIdNow = 0;
-    private Product mAProduct;
     private GoogleMap googleMap;
-
-
 
     public MapFragment() {
         // Required empty public constructor
     }
 
-
-    // Container Activity must implement this interface
-    public interface OnCommunicateWithActivity {
-        public void onUserGeolocation();
-        public void onSearchAdresseLocation();
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mIBMap.onLowMemory();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mIBMap.onDestroy();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mIBMap.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mIBMap.onResume();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
-        try {
-            mCallback = (OnCommunicateWithActivity) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " must implement OnCommunicateWithActivity");
-        }
-
-    }
-
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mIBMap.onSaveInstanceState(outState);
-    }
 
 
     @Override
@@ -184,13 +129,67 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         FloatingActionButton mIBMapAddProduct = (FloatingActionButton)  view.findViewById(R.id.IBMapAddProduct);
         mIBMapAddProduct.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //Todo  floating action buttion function
-                MyTools.sharedInstance().showHelp("floating action buttion function", getContext());
+                startActivity(new Intent(getContext(), ProductActivity.class));
+
             }
         });
 
 
         return view;
+    }
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mIBMap.onLowMemory();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mIBMap.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mIBMap.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mIBMap.onResume();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnCommunicateWithActivity) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnCommunicateWithActivity");
+        }
+
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mIBMap.onSaveInstanceState(outState);
     }
 
 
@@ -245,9 +244,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
 
     @Override
-    public boolean onMarkerClick(Marker marker) {
-        return false;
-    }
+    public boolean onMarkerClick(Marker marker) {return false;}
+
 
 
     @Override
@@ -255,8 +253,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         this.googleMap = googleMap;
 
+        googleMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
+
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                startActivity(new Intent(getContext(), ProductActivity.class));
+
+            }
+        });
+
         checkLoardMap();
     }
+
 
     public void checkLoardMap() {
 
@@ -267,16 +277,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             refreshData();
         }
 
-
         Marker markerUser = googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(mlatUser, mlonUser))
                 .title("user:")
                 .snippet(mConfig.getUser_nom()+ " "+mConfig.getUser_prenom()+ "("+mConfig.getUser_id()+")"));
+        markerUser.setTag(null);
 
         markerUser.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerUser.getPosition(), 12));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerUser.getPosition(), DEFAULT_ZOOM));
 
         googleMap.setOnMarkerClickListener(this);
     }
@@ -373,49 +383,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
 
-    private int countProduct() {
-
-        //Setting search Area
-        // The lat and long are used to create aLLocation Coordinates2D instance.
-
-        double latspan = (mConfig.getRegionProduct()/111325);
-        double longspan = (mConfig.getRegionProduct()/111325)*(1/ Math.cos(Math.toRadians(mlatUser)));
-        LatLngBounds coordinateRegion = new LatLngBounds(new LatLng(mlatUser-latspan, mlonUser-longspan), new LatLng(mlatUser+latspan, mlonUser+longspan));
-        Double minimumLon = coordinateRegion.getCenter().longitude-longspan;
-        Double maximumLon = coordinateRegion.getCenter().longitude+longspan;
-        Double minimumLat = coordinateRegion.getCenter().latitude-latspan;
-        Double maximumLat = coordinateRegion.getCenter().latitude+latspan;
-
-
-        int count = 0;
-
-        try {
-            for (int i = 0; i < Products.sharedInstance().getProductsArray().length() ; i++) {
-
-                JSONObject prod = Products.sharedInstance().getProductsArray().getJSONObject(i);
-                Product produ = new Product(getContext(), prod);
-
-                if (produ.getProd_latitude() >= minimumLat && produ.getProd_latitude()  <= maximumLat && produ.getProd_longitude()  >= minimumLon && produ.getProd_longitude()  <= maximumLon) {
-                    i += 1;
-                }
-
-
-                if (produ.getProd_id() == mProdIdNow) {
-                    mAProduct = produ;
-                }
-
-                count = i;
-            }
-        }  catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-
-        return count;
-
-    }
-
 
     private void loadPins() {
 
@@ -450,6 +417,95 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     }
 
+
+    class CustomInfoWindowAdapter implements InfoWindowAdapter {
+
+        private final View mWindow;
+        private final View mContents;
+        private Boolean mIsRefresh = false;
+
+        CustomInfoWindowAdapter() {
+            mWindow = getActivity().getLayoutInflater().inflate(R.layout.custom_info_window, null);
+            mContents = getActivity().getLayoutInflater().inflate(R.layout.custom_info_contents, null);
+        }
+
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+
+            render(marker, mWindow);
+            return mWindow;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+
+            render(marker, mContents);
+            return mContents;
+
+        }
+
+        private void render(final Marker marker, View view) {
+
+           final ImageView mIBInfoImage = (ImageView) view.findViewById(R.id.IBInfoImage);
+
+
+            if (marker.getTag() != null) {
+
+                Product product = (Product) marker.getTag();
+
+                String  mUrl = mConfig.getUrlServer()+"/images/"+product.getProd_imageUrl()+".jpg";
+
+                ImageDownloader downloadImage =  new ImageDownloader(getContext(), new ImageInterface() {
+                    @Override
+                    public void completionHandlerImage(final Boolean success, final Drawable drawable) {
+
+                        MyTools.sharedInstance().performUIUpdatesOnMain(getContext(), new MainThreadInterface() {
+
+                            @Override
+                            public void completionUpdateMain() {
+                                if (success) {
+                                    mIBInfoImage.setImageDrawable(drawable);
+
+                                } else {
+                                    mIBInfoImage.setImageResource(R.drawable.noimage);
+                                }
+
+                                if (!mIsRefresh) {
+                                    marker.showInfoWindow();
+                                }
+                                mIsRefresh = !mIsRefresh;
+
+
+                            }
+                        });
+
+                    }
+                });
+
+                downloadImage.execute(mUrl);
+
+
+            } else {
+
+                mIBInfoImage.setImageResource(R.drawable.noimage);
+            }
+
+            Button mIBPinTitle = (Button) view.findViewById(R.id.IBPinTitle);
+            mIBPinTitle.setText(marker.getTitle());
+
+            TextView mIBPinSnippet = (TextView) view.findViewById(R.id.IBPinSnippet);
+            mIBPinSnippet.setText(marker.getSnippet());
+
+        }
+    }
+
+
+    // Container Activity must implement this interface
+    public interface OnCommunicateWithActivity {
+        public void onUserGeolocation();
+        public void onSearchAdresseLocation();
+    }
 
 
 }

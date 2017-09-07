@@ -38,4 +38,15 @@
     <string name="connectInfo">Connection information</string>
     <string name="termsOfUse">Terms of use</string>
     <string name="star">stars</string>
+    <string name="TapAProd">Tap a product</string>
+    <string name="seeOtherProduct">See others products</string>
+    <string name="save">Save</string>
+    <string name="description">description</string>
+    <string name="price">price</string>
+    <string name="comment">comment</string>
+    <string name="availableTime">Available time</string>
+    <string name="state">Product state :</string>
+    <string name="allowExch">Sharing possible (no remuneration)?</string>
+    <string name="findOnMap">Find on the map</string>
+    <string name="myPosition">My position</string>
 </resources>
