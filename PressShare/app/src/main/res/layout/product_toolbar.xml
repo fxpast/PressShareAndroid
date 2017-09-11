@@ -20,7 +20,7 @@
         android:orientation="horizontal"
         >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/IBProdClose"
             android:layout_width="28dp"
             android:layout_height="30dp"
@@ -31,7 +31,7 @@
             app:srcCompat="@drawable/close" />
 
 
-        <ImageButton
+        <ImageView
             android:id="@+id/IBProdMess"
             android:layout_width="40dp"
             android:layout_height="28dp"
@@ -43,7 +43,7 @@
             android:layout_marginLeft="27dp" />
 
 
-        <ImageButton
+        <ImageView
             android:id="@+id/IBProdHelp"
             android:layout_width="32dp"
             android:layout_height="28dp"

@@ -24,10 +24,10 @@
             android:layout_height="match_parent">
 
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/IBInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="39dp"
+                android:layout_height="35dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
@@ -39,7 +39,9 @@
                 app:layout_constraintLeft_toRightOf="@+id/IBImagePress"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/help" />
+                app:srcCompat="@drawable/help"
+                tools:layout_editor_absoluteY="13dp"
+                tools:layout_editor_absoluteX="321dp" />
 
             <ImageView
                 android:id="@+id/IBImagePress"
@@ -104,7 +106,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
                 android:onClick="actionAnonyme"
-                app:theme="@style/Button"
                 android:text="@string/anonyme"
                 app:layout_constraintHorizontal_bias="0.742"
                 app:layout_constraintLeft_toRightOf="@+id/IBUserLabel"
@@ -145,7 +146,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="40dp"
                 android:onClick="actionPassword"
-                app:theme="@style/Button"
                 android:text="@string/lostPassword"
                 app:layout_constraintHorizontal_bias="0.833"
                 app:layout_constraintLeft_toRightOf="@+id/IBPasswordLabel"
@@ -164,7 +164,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="30dp"
                 android:onClick="actionLogin"
-                app:theme="@style/Button"
                 android:text="@string/signin"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -177,7 +176,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="13dp"
                 android:onClick="actionNewAccount"
-                app:theme="@style/Button"
                 android:text="@string/signup"
                 app:layout_constraintHorizontal_bias="0.502"
                 app:layout_constraintLeft_toLeftOf="parent"

@@ -22,10 +22,10 @@
 
 
 
-        <ImageButton
+        <ImageView
             android:id="@+id/IBSetHelp"
-            android:layout_width="46dp"
-            android:layout_height="41dp"
+            android:layout_width="38dp"
+            android:layout_height="37dp"
             android:layout_weight="1"
             android:background="@color/cardview_light_background"
             android:layout_gravity="center_horizontal"
@@ -35,7 +35,8 @@
             app:srcCompat="@drawable/help"
             android:layout_marginRight="16dp"
             app:layout_constraintVertical_bias="0.0"
-            tools:layout_editor_absoluteX="290dp" />
+            tools:layout_editor_absoluteX="304dp"
+            tools:layout_editor_absoluteY="4dp" />
 
 
         <TextView
@@ -57,10 +58,10 @@
 
 
 
-        <ImageButton
+        <ImageView
             android:id="@+id/IBSetLogout"
-            android:layout_width="46dp"
-            android:layout_height="41dp"
+            android:layout_width="25dp"
+            android:layout_height="27dp"
             android:layout_weight="1"
             android:background="@color/cardview_light_background"
             android:layout_gravity="center_horizontal"
@@ -69,8 +70,8 @@
             app:layout_constraintTop_toTopOf="parent"
 
 
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="0dp" />
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="5dp" />
 
 
 

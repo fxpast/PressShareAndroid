@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.prv.pressshare.activities.MapProdActivity;
 import com.prv.pressshare.activities.ProductActivity;
 import com.prv.pressshare.daos.MDBCapital;
 import com.prv.pressshare.daos.MDBInterfaceArray;
@@ -86,32 +88,37 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         mConfig = Config.sharedInstance();
 
-        ImageButton mIBMapLogout = (ImageButton) view.findViewById(R.id.IBMapLogout);
-        mIBMapLogout.setOnClickListener(new View.OnClickListener() {
+
+        ImageView mIBMapLogout = (ImageView) view.findViewById(R.id.IBMapLogout);
+        mIBMapLogout.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
                 //action logout
                 actionLogout();
+                return false;
             }
         });
 
 
-        ImageButton mIBMapHelp = (ImageButton) view.findViewById(R.id.IBMapHelp);
-        mIBMapHelp.setOnClickListener(new View.OnClickListener() {
+        ImageView mIBMapHelp = (ImageView) view.findViewById(R.id.IBMapHelp);
+        mIBMapHelp.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
+
                 //Todo Tuto_Presentation
                 MyTools.sharedInstance().showHelp("Tuto_Presentation", getContext());
+                return false;
             }
         });
 
 
-        ImageButton mIBMapRefresh = (ImageButton) view.findViewById(R.id.IBMapRefresh);
-        mIBMapRefresh.setOnClickListener(new View.OnClickListener() {
+        ImageView mIBMapRefresh = (ImageView) view.findViewById(R.id.IBMapRefresh);
+        mIBMapRefresh.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
                 //refresh function
                 mCallback.onUserGeolocation();
+                return false;
             }
         });
 
@@ -259,7 +266,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             @Override
             public void onInfoWindowClick(Marker marker) {
 
-                startActivity(new Intent(getContext(), ProductActivity.class));
+
+                Intent intent = new Intent(getContext(), ProductActivity.class);
+
+                if (marker.getTag() != null) {
+                    Product product = (Product) marker.getTag();
+
+                    intent.putExtra(mConfig.getDomaineApp()+"prod_id", product.getProd_id());
+                    intent.putExtra(mConfig.getDomaineApp()+"typeListe", 0);
+                    startActivity(intent);
+                }
+
 
             }
         });

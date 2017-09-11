@@ -48,10 +48,11 @@ public class MyTools {
             return;
         }
 
+        String adresseStr = adresseString.replace(" ", "%20");
 
         //Creating a string request
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,"http://maps.google.com/maps/api/geocode/json?address="+adresseString+"&sensor=false", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,"http://maps.google.com/maps/api/geocode/json?address="+adresseStr+"&sensor=false", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //If we are getting success from server

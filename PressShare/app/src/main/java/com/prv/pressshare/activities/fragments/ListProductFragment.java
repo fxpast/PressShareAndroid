@@ -11,12 +11,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,6 +50,7 @@ public class ListProductFragment extends Fragment {
     private ListView mIBListListView;
     private EditText mIBListSearchPro;
     private int mTypeListe = 0; //List :0, MyList :1, Historical:2
+    private List<Object> mProducts;
 
     public ListProductFragment() {
         // Required empty public constructor
@@ -60,6 +63,8 @@ public class ListProductFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_list_product, container, false);
+
+        mProducts = new ArrayList<>();
 
         mIBListProd = (Button) view.findViewById(R.id.IBListProd);
         mIBMesListProd = (Button) view.findViewById(R.id.IBMesListProd);
@@ -101,7 +106,13 @@ public class ListProductFragment extends Fragment {
         mIBListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(getContext(), ProductActivity.class));
+
+                Intent intent = new Intent(getContext(), ProductActivity.class);
+                Product product =(Product) mProducts.get(position);
+
+                intent.putExtra(mConfig.getDomaineApp()+"prod_id", product.getProd_id());
+                intent.putExtra(mConfig.getDomaineApp()+"typeListe", mTypeListe);
+                startActivity(intent);
 
             }
         });
@@ -131,26 +142,26 @@ public class ListProductFragment extends Fragment {
         });
 
 
-        ImageButton mIBListLogout = (ImageButton) view.findViewById(R.id.IBListLogout);
-        mIBListLogout.setOnClickListener(new View.OnClickListener() {
+        ImageView mIBListLogout = (ImageView) view.findViewById(R.id.IBListLogout);
+        mIBListLogout.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-
+            public boolean onTouch(View v, MotionEvent event) {
                 //action logout
                 actionLogout();
-
+                return false;
             }
         });
 
 
-        ImageButton mIBListHelp = (ImageButton) view.findViewById(R.id.IBListHelp);
-        mIBListHelp.setOnClickListener(new View.OnClickListener() {
+
+        ImageView mIBListHelp = (ImageView) view.findViewById(R.id.IBListHelp);
+        mIBListHelp.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
 
                 //Todo Tuto_Presentation
                 MyTools.sharedInstance().showHelp("Tuto_Presentation", getContext());
-
+                return false;
             }
         });
 
@@ -257,8 +268,7 @@ public class ListProductFragment extends Fragment {
 
     private void ActionSearchProduct(String value, int  typeListe) {
 
-        List<Object> products = new ArrayList<>();
-
+        mProducts.clear();
         //List
         JSONArray productsJSON = Products.sharedInstance().getProductsArray();
 
@@ -284,12 +294,12 @@ public class ListProductFragment extends Fragment {
 
                 if (value.equals("")) {
 
-                    products.add(i, product);
+                    mProducts.add(i, product);
 
                 } else {
 
                     if (nom.contains(value.toLowerCase())) {
-                        products.add(product);
+                        mProducts.add(product);
                     }
 
                 }
@@ -300,7 +310,7 @@ public class ListProductFragment extends Fragment {
             e.printStackTrace();
         }
 
-        ListAdapter mAdapter = new CustomItem(getContext(),R.layout.list_item, products);
+        ListAdapter mAdapter = new CustomItem(getContext(),R.layout.list_item, mProducts);
         mIBListListView.setAdapter(mAdapter);
 
 

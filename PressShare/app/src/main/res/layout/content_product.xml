@@ -14,10 +14,10 @@
         android:orientation="vertical">
 
 
-        <ImageButton
+        <ImageView
             android:id="@+id/IBProdAddImage"
-            android:layout_width="140dp"
-            android:layout_height="104dp"
+            android:layout_width="115dp"
+            android:layout_height="92dp"
             android:layout_gravity="left|center"
             android:layout_weight="0.07"
             app:srcCompat="@drawable/noimage"
@@ -266,7 +266,5 @@
 
 
     </android.support.constraint.ConstraintLayout>
-
-
 
 </android.support.v4.widget.NestedScrollView>

@@ -5,11 +5,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -71,24 +73,29 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        ImageButton mIBSetLogout = (ImageButton) view.findViewById(R.id.IBSetLogout);
-        mIBSetLogout.setOnClickListener(new View.OnClickListener() {
+
+        ImageView mIBSetLogout = (ImageView) view.findViewById(R.id.IBSetLogout);
+        mIBSetLogout.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
                 //action logout
                 actionLogout();
+                return false;
             }
         });
 
 
-        ImageButton mIBSetHelp = (ImageButton) view.findViewById(R.id.IBSetHelp);
-        mIBSetHelp.setOnClickListener(new View.OnClickListener() {
+        ImageView mIBSetHelp = (ImageView) view.findViewById(R.id.IBSetHelp);
+        mIBSetHelp.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
+
                 //Todo Tuto_Presentation
                 MyTools.sharedInstance().showHelp("Tuto_Presentation", getContext());
+                return false;
             }
         });
+
 
 
         return  view;
