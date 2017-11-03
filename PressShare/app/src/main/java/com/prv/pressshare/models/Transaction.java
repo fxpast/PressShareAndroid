@@ -36,7 +36,7 @@ public class Transaction {
 
     private String  trans_wording;
     public String getTrans_wording() { return trans_wording;}
-    public void setTrans_wording(String user_adresse) {this.trans_wording = trans_wording;}
+    public void setTrans_wording(String trans_wording) {this.trans_wording = trans_wording;}
 
     private int prod_id;
     public int getProd_id() { return prod_id;}
@@ -74,9 +74,9 @@ public class Transaction {
         this.trans_valid = trans_valid;
     }
 
-    private int trans_avis;   //interlocuteur, conformite, absence, "tap text"
-    public int getTrans_avis() { return trans_avis;}
-    public void setTrans_avis(int trans_avis) {
+    private String trans_avis;   //interlocuteur, conformite, absence, "tap text"
+    public String getTrans_avis() { return trans_avis;}
+    public void setTrans_avis(String trans_avis) {
         this.trans_avis = trans_avis;
     }
 
@@ -96,7 +96,7 @@ public class Transaction {
 
     public Transaction(JSONObject dico) {
 
-        if (dico.length() > 1) {
+        if (dico != null) {
 
             try {
 
@@ -112,8 +112,8 @@ public class Transaction {
                 vendeur_id= Integer.parseInt(dico.get("vendeur_id").toString());
                 proprietaire= Integer.parseInt(dico.get("proprietaire").toString());
                 trans_valid= Integer.parseInt(dico.get("trans_valid").toString());
-                trans_avis= Integer.parseInt(dico.get("trans_avis").toString());
-                trans_arbitrage= Boolean.parseBoolean(dico.get("trans_arbitrage").toString());
+                trans_avis= dico.get("trans_avis").toString();
+                trans_arbitrage= dico.get("trans_arbitrage").toString().equals("1");
                 trans_note= Integer.parseInt(dico.get("trans_note").toString());
 
 
@@ -135,7 +135,7 @@ public class Transaction {
             vendeur_id = 0;
             proprietaire = 0;
             trans_valid = 0;
-            trans_avis = 0;
+            trans_avis = "";
             trans_arbitrage = false;
             trans_note = 0;
 

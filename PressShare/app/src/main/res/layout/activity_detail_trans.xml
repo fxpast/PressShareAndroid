@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    tools:context="com.prv.pressshare.activities.DetailTransActivity">
+
+
+    <include
+        layout="@layout/detail_trans_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="59dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:id="@+id/include" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="357dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.0">
+
+
+        <TextView
+            android:id="@+id/IBNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Laisser une note : " />
+
+        <ImageView
+            android:id="@+id/IBTranStar1"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:onClick="actionTranStar1"
+            app:srcCompat="@drawable/whitestar" />
+
+        <ImageView
+            android:id="@+id/IBTranStar2"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:onClick="actionTranStar2"
+            app:srcCompat="@drawable/whitestar" />
+
+        <ImageView
+            android:id="@+id/IBTranStar3"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:onClick="actionTranStar3"
+            app:srcCompat="@drawable/whitestar" />
+
+        <ImageView
+            android:id="@+id/IBTranStar4"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:onClick="actionTranStar4"
+            app:srcCompat="@drawable/whitestar" />
+
+        <ImageView
+            android:id="@+id/IBTranStar5"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:onClick="actionTranStar5"
+            app:srcCompat="@drawable/whitestar" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.0">
+
+
+    <TextView
+            android:id="@+id/IBClient"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:inputType="textMultiLine"
+            android:text="Vendeur : Stromae (29)"/>
+
+
+    <TextView
+        android:id="@+id/IBInfoContact"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:inputType="textMultiLine"
+        android:text="Contact : Dunkerque, France" />
+
+
+    <TextView
+            android:id="@+id/IBWording"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+             android:inputType="textMultiLine"
+            android:text="Libellé transaction : Les parfums de grasse" />
+
+    <TextView
+            android:id="@+id/IBAmount"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Montant : 16.4€" />
+
+    <TextView
+            android:id="@+id/IBLabelType"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Type : Achat" />
+
+    <Switch
+        android:id="@+id/IBisConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="Accepter :"
+        android:onClick="actionConfirm"/>
+
+    <Switch
+        android:id="@+id/IBisCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="Annuler :"
+        android:onClick="actionCancel" />
+
+    <Switch
+        android:id="@+id/IBisInterlo"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="Interlocuteur absent :"
+        android:onClick="actionInterlo" />
+    <Switch
+        android:id="@+id/IBisMyAbsent"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="Par mon absence :"
+        android:onClick="actionMyAbsent" />
+
+    <Switch
+        android:id="@+id/IBisCompliant"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="Produit non conforme :"
+        android:onClick="actionCompliant" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:weightSum="1">
+
+
+        <Switch
+            android:id="@+id/IBisOther"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="Autre :"
+            android:onClick="actionOther" />
+
+        <EditText
+            android:id="@+id/IBOtherText"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:inputType="textMultiLine"
+            android:text=""
+            android:layout_weight="0.57" />
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

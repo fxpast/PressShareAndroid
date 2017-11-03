@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="?attr/actionBarSize"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/gap"
+    android:elevation="2dp"
+    android:textAppearance="@color/abc_primary_text_material_dark"
+    android:background="@drawable/toolbar_custom_background"
+    app:theme="@style/ThemeOverlay.AppCompat.Light"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    >
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:id="@+id/IBListTypeCBClose"
+            android:layout_width="28dp"
+            android:layout_height="30dp"
+            android:onClick="actionCloseWidows"
+            android:background="@color/cardview_light_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/close" />
+
+
+        <TextView
+            android:id="@+id/IBListTypeCBTitle"
+            android:layout_width="178dp"
+            android:layout_height="30dp"
+            android:text="@string/typeOfPay"
+            android:gravity="center"
+            android:background="@color/cardview_light_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/IBListTypeCBClose"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="27dp"
+            app:layout_constraintRight_toLeftOf="@+id/IBListTypeCBHelp"
+            android:layout_marginRight="8dp"
+            tools:layout_editor_absoluteY="2dp"
+            tools:layout_editor_absoluteX="49dp" />
+
+
+        <ImageView
+            android:id="@+id/IBListTypeCBHelp"
+            android:layout_width="32dp"
+            android:layout_height="28dp"
+            android:onClick="actionListTypeCBHelp"
+            android:background="@color/cardview_light_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/help"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.v7.widget.Toolbar>

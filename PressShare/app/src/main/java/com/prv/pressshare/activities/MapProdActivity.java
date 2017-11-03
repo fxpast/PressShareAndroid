@@ -11,9 +11,9 @@ import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,14 +44,13 @@ public class MapProdActivity extends AppCompatActivity implements OnMapReadyCall
     private Location mLastLocation;
     private static final int DEFAULT_ZOOM = 13;
     private MapView mIBProdMapView;
-    private GoogleMap googleMap;
     private Double mlatUser = 0.0;
     private Double mlonUser = 0.0;
     private Boolean mIsAddMarker = false;
     private String mInfoLocation;
     private String mIBNom;
     private String mIBComment;
-    private Config mConfig;
+    private Config mConfig = Config.sharedInstance();
 
 
     @Override
@@ -95,8 +94,6 @@ public class MapProdActivity extends AppCompatActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
 
 
-        mConfig = Config.sharedInstance();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_prod);
 
@@ -111,26 +108,18 @@ public class MapProdActivity extends AppCompatActivity implements OnMapReadyCall
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        ImageButton mIBProdMapClose = (ImageButton) findViewById(R.id.IBProdMapClose);
-        mIBProdMapClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        Button mIBProdMapValid = (Button) findViewById(R.id.IBProdMapValid);
-        mIBProdMapValid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Todo the position is saving
-                MyTools.sharedInstance().displayAlert(MapProdActivity.this,"the position is saving");
-            }
-        });
-
-
     }
 
+    public void actionProdMapClose(View view) {
+        finish();
+    }
+
+    public void actionProdMapValid(View view) {
+
+        mConfig.setLongitude(mlonUser);
+        mConfig.setLatitude(mlatUser);
+        finish();
+    }
 
     private void actionSearchAdresse(String adresse){
 
@@ -319,8 +308,6 @@ public class MapProdActivity extends AppCompatActivity implements OnMapReadyCall
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-        this.googleMap = googleMap;
 
         if ((mLastLocation != null || !mInfoLocation.equals(""))  && !mIsAddMarker) {
 

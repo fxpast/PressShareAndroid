@@ -23,7 +23,7 @@ public class Config {
 
     private static Config mInstance;
 
-    private final static String  urlServer = "http://presssharedev.fxpast.com/";
+    private final static String  urlServer = "http://pressshare.fxpast.com/";
     public static String getUrlServer() {return urlServer;}
 
     private int  user_id;
@@ -262,6 +262,8 @@ public class Config {
     private final String fileParameters  = "fileParameters";
     public String getFileParameters() {return fileParameters;}
 
+    private final String listProdImage  = "listProdImage";
+    public String getListProdImage() {return listProdImage;}
 
     public void cleaner(final Context context) {
 

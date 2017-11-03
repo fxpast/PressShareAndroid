@@ -510,6 +510,7 @@ public class MDBMessage {
                 params.put("vendeur_id", String.valueOf(message.getVendeur_id()));
                 params.put("client_id", String.valueOf(message.getClient_id()));
                 params.put("product_id", String.valueOf(message.getProduct_id()));
+                params.put("contenu", message.getContenu());
                 params.put("lang",context.getString(R.string.lang));
 
 

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -26,7 +27,9 @@ import com.prv.pressshare.R;
 import com.prv.pressshare.activities.fragments.ListProductFragment;
 import com.prv.pressshare.activities.fragments.MapFragment;
 import com.prv.pressshare.activities.fragments.SettingsFragment;
+import com.prv.pressshare.utils.CheckBadgeInterface;
 import com.prv.pressshare.utils.Config;
+import com.prv.pressshare.utils.MyTools;
 
 public class TabMainActivity extends AppCompatActivity implements MapFragment.OnCommunicateWithActivity {
 
@@ -36,9 +39,12 @@ public class TabMainActivity extends AppCompatActivity implements MapFragment.On
     MapFragment mMapFragment;
     SettingsFragment mSettingsFragment;
     ListProductFragment mListProductFragment;
-
+    private Config mConfig = Config.sharedInstance();
     // Represents a geographical location.
     private Location mLastLocation;
+    private Handler timerBadge;
+    private Runnable runnableBadge;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -50,14 +56,26 @@ public class TabMainActivity extends AppCompatActivity implements MapFragment.On
             switch (item.getItemId()) {
                 case R.id.IBTabMap:
 
+                    if (mMapFragment == null) {
+                        mMapFragment = new MapFragment();
+                        callCheckLocation();
+                    }
                     showFragment(mMapFragment);
                     return true;
+
                 case R.id.IBTabList:
 
+                    if (mListProductFragment == null) {
+                        mListProductFragment = new ListProductFragment();
+                    }
                     showFragment(mListProductFragment);
                     return true;
+
                 case R.id.IBTabSettings:
 
+                    if (mSettingsFragment == null) {
+                        mSettingsFragment = new SettingsFragment();
+                    }
                     showFragment(mSettingsFragment);
                     return true;
             }
@@ -65,6 +83,25 @@ public class TabMainActivity extends AppCompatActivity implements MapFragment.On
         }
 
     };
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tab_main);
+
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getBaseContext());
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
+        navigation.setSelectedItemId(R.id.IBTabMap);
+
+
+
+    }
+
 
     @Override
     public void onUserGeolocation() {
@@ -83,7 +120,54 @@ public class TabMainActivity extends AppCompatActivity implements MapFragment.On
     public void onStart() {
         super.onStart();
 
-        callCheckLocation();
+
+        timerBadge = new Handler();
+        timerBadge.postDelayed(new Runnable(){
+            public void run(){
+                if (!mConfig.getIsTimer()) {
+
+                    MyTools.sharedInstance().checkBadge(TabMainActivity.this, new CheckBadgeInterface() {
+                        @Override
+                        public void completionHdlerBadge(Boolean success, String result) {
+                            if (success) {
+
+                                //ok
+
+                            }
+                        }
+                    });
+
+                    runnableBadge = this;
+                    timerBadge.postDelayed(runnableBadge, mConfig.getDureeTimer().longValue()*1000);
+
+                }
+
+            }
+        }, mConfig.getDureeTimer().longValue()*1000);
+
+
+    }
+
+    @Override
+    public void onPause() {
+
+
+        mConfig.setIsTimer(false);
+        timerBadge.removeCallbacks(runnableBadge);
+        runnableBadge = null;
+
+
+
+        super.onPause();
+
+
+    }
+
+    @Override
+    public void onDestroy() {
+        mConfig.setIsTimer(false);
+        super.onDestroy();
+
     }
 
 
@@ -95,24 +179,6 @@ public class TabMainActivity extends AppCompatActivity implements MapFragment.On
         }
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tab_main);
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        mMapFragment = new MapFragment();
-        mSettingsFragment = new SettingsFragment();
-        mListProductFragment = new ListProductFragment();
-
-        showFragment(mMapFragment);
-
-
-    }
 
 
     @Override
@@ -156,7 +222,6 @@ public class TabMainActivity extends AppCompatActivity implements MapFragment.On
                 });
 
     }
-
 
 
     private boolean checkPermissions() {

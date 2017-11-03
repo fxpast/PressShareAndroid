@@ -9,7 +9,7 @@ package com.prv.pressshare.activities;
 //  Created by MacbookPRV on 18/08/2017.
 //  Copyright © 2016 Pastouret Roger. All rights reserved.
 //
-//Todo new : supprimer doublon proprieté user et config
+//Todo new : supprimer doublon proprieté user et mConfig
 //Todo new : login par pseudo ou email
 
 
@@ -26,6 +26,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.prv.pressshare.R;
+import com.prv.pressshare.lists.Capitals;
+import com.prv.pressshare.lists.Cards;
+import com.prv.pressshare.lists.Messages;
+import com.prv.pressshare.lists.PressOperations;
+import com.prv.pressshare.lists.Products;
+import com.prv.pressshare.lists.Transactions;
 import com.prv.pressshare.utils.MyTools;
 import com.prv.pressshare.utils.Config;
 import com.prv.pressshare.daos.MDBInterfaceArray;
@@ -44,8 +50,13 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mIBPassword;
     private EditText mIBUser;
     private Button mIBLogin;
-    private Config config;
+
     private ProgressBar mIBActivity;
+    private  Button mIBNewAccount;
+    private  Button mIBAnonyme;
+    private  Button mIBLostPass;
+
+    private Config mConfig = Config.sharedInstance();
 
 
     @Override
@@ -53,70 +64,28 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+
         mIBActivity = (ProgressBar) findViewById(R.id.IBProgressBar);
 
         mIBLogin = (Button) findViewById(R.id.IBLogin);
         mIBLogin.setPaintFlags(mIBLogin.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        Button mIBNewAccount = (Button) findViewById(R.id.IBNewAccount);
+        mIBNewAccount = (Button) findViewById(R.id.IBNewAccount);
         mIBNewAccount.setPaintFlags(mIBNewAccount.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        Button mIBAnonyme = (Button) findViewById(R.id.IBAnonyme);
+        mIBAnonyme = (Button) findViewById(R.id.IBAnonyme);
         mIBAnonyme.setPaintFlags(mIBAnonyme.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        Button mIBLostPass = (Button) findViewById(R.id.IBLostPass);
+        mIBLostPass = (Button) findViewById(R.id.IBLostPass);
         mIBLostPass.setPaintFlags(mIBLostPass.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         mIBUser = (EditText) findViewById(R.id.IBUser);
-
-
-        config = Config.sharedInstance();
-        config.cleaner(this);
-
-        mIBActivity.setVisibility(View.GONE);
-
-
-
-        config.setPreviousView("LoginViewController");
-
-        /*
-        PressOperations.sharedInstance.operationArray = nil
-        Messages.sharedInstance.MessagesArray = nil
-        Transactions.sharedInstance.transactionArray = nil
-        Capitals.sharedInstance.capitalsArray = nil
-        Products.sharedInstance.productsArray = nil
-        Products.sharedInstance.productsUserArray = nil
-        Cards.sharedInstance.cardsArray = nil
-        * */
-
-
-
-        //first time connected?
-        SharedPreferences sharedPref = getSharedPreferences(config.getFileParameters(), Context.MODE_PRIVATE);
-        config.setTokenString(sharedPref.getString(config.getDomaineApp()+"tokenString",""));
-        config.setUser_pseudo(sharedPref.getString(config.getDomaineApp()+"user_pseudo",""));
-        config.setUser_email(sharedPref.getString(config.getDomaineApp()+"user_email",""));
-
-        Boolean firstTime = sharedPref.getBoolean(config.getDomaineApp()+"firstTime",true);
-
-        mIBUser.setText(config.getUser_pseudo());
-
-        //show Tuto_Presentation
-        if (firstTime) {
-
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean(config.getDomaineApp()+"firstTime", false);
-            editor.apply();
-
-            MyTools.sharedInstance().showHelp("Tuto_Presentation", this);
-
-        }
-
+        mIBPassword = (EditText) findViewById(R.id.IBPassword);
 
 
         //Events
 
-        mIBPassword = (EditText) findViewById(R.id.IBPassword);
         mIBPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -129,7 +98,59 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+
+        initArray(PressOperations.sharedInstance().getOperationArray());
+        initArray(Messages.sharedInstance().getMessagesArray());
+        initArray(Transactions.sharedInstance().getTransactionArray());
+        initArray(Capitals.sharedInstance().getCapitalsArray());
+        initArray(Products.sharedInstance().getProductsArray());
+        initArray(Products.sharedInstance().getProductsUserArray());
+        initArray(Cards.sharedInstance().getCardsArray());
+
+        mConfig.cleaner(this);
+
+        mIBActivity.setVisibility(View.GONE);
+
+        mConfig.setPreviousView("LoginViewController");
+
+
+        //first time connected?
+        SharedPreferences sharedPref = getSharedPreferences(mConfig.getFileParameters(), Context.MODE_PRIVATE);
+        mConfig.setTokenString(sharedPref.getString(mConfig.getDomaineApp()+"tokenString",""));
+        mConfig.setUser_pseudo(sharedPref.getString(mConfig.getDomaineApp()+"user_pseudo",""));
+        mConfig.setUser_email(sharedPref.getString(mConfig.getDomaineApp()+"user_email",""));
+
+        Boolean firstTime = sharedPref.getBoolean(mConfig.getDomaineApp()+"firstTime",true);
+
+        mIBUser.setText(mConfig.getUser_pseudo());
+
+        //show Tuto_Presentation
+        if (firstTime) {
+
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(mConfig.getDomaineApp()+"firstTime", false);
+            editor.apply();
+
+            MyTools.sharedInstance().showHelp("Tuto_Presentation", this);
+
+        }
+
+
+    }
+
+
+    private void initArray(JSONArray anArray) {
+
+        while (anArray.length()>0) {
+
+            anArray.remove(0);
+        }
+
+    }
 
     public void actionInfo(View view) {
 
@@ -152,8 +173,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void actionPassword(View view) {
 
-
-        MyTools.sharedInstance().displayAlert(this, "This is forgetten password button");
+        Intent intent = new Intent(this, ChangePwdActivity.class);
+        startActivity(intent);
 
     }
 
@@ -180,21 +201,21 @@ public class LoginActivity extends AppCompatActivity {
 
         setUIEnabled(false);
 
-        config.setUser_pass(mIBPassword.getText().toString());
-        config.setUser_pseudo(mIBUser.getText().toString());
+        mConfig.setUser_pass(mIBPassword.getText().toString());
+        mConfig.setUser_pseudo(mIBUser.getText().toString());
 
-        MDBUser.sharedInstance().Authentification(this, config, new MDBInterfaceArray() {
+        MDBUser.sharedInstance().Authentification(this, mConfig, new MDBInterfaceArray() {
 
                 @Override
             public void completionHandlerArray(Boolean success, JSONArray userArray, final String errorString) {
 
                 if (success) {
 
-                    final SharedPreferences sharedPref = getSharedPreferences(config.getFileParameters(), Context.MODE_PRIVATE);
+                    final SharedPreferences sharedPref = getSharedPreferences(mConfig.getFileParameters(), Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
                     try {
-                        editor.putString(config.getDomaineApp()+"user_pseudo",  userArray.getJSONObject(0).getString("user_pseudo"));
-                        editor.putString(config.getDomaineApp()+"user_email", userArray.getJSONObject(0).getString("user_email"));
+                        editor.putString(mConfig.getDomaineApp()+"user_pseudo",  userArray.getJSONObject(0).getString("user_pseudo"));
+                        editor.putString(mConfig.getDomaineApp()+"user_email", userArray.getJSONObject(0).getString("user_email"));
                         editor.apply();
                         assignUser(new User(userArray.getJSONObject(0)));
 
@@ -205,7 +226,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-                    MyTools.sharedInstance().performUIUpdatesOnMain(getBaseContext(), new MainThreadInterface() {
+                    MyTools.sharedInstance().performUIUpdatesOnMain(LoginActivity.this, new MainThreadInterface() {
 
                         @Override
                         public void completionUpdateMain() {
@@ -219,12 +240,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else {
 
-                    MyTools.sharedInstance().performUIUpdatesOnMain(getBaseContext(), new MainThreadInterface() {
+                    MyTools.sharedInstance().performUIUpdatesOnMain(LoginActivity.this, new MainThreadInterface() {
 
                         @Override
                         public void completionUpdateMain() {
                             setUIEnabled(true);
-                            MyTools.sharedInstance().displayAlert(getBaseContext(),errorString);
+                            MyTools.sharedInstance().displayAlert(LoginActivity.this,errorString);
                             mIBActivity.setVisibility(View.GONE);
 
 
@@ -239,22 +260,22 @@ public class LoginActivity extends AppCompatActivity {
 
     public void actionNewAccount(View view) {
 
-
-
-        MyTools.sharedInstance().displayAlert(this, "This is sign up button");
+        Intent intent = new Intent(this, NewUserActivity.class);
+        startActivity(intent);
 
     }
 
 
     private void callMenu() {
 
-        if (!config.getUser_pseudo().equals("")) {
+        if (!mConfig.getUser_pseudo().equals("")) {
 
             mIBPassword.setText("");
+            mIBUser.setText("");
             setUIEnabled(true);
 
-            if (config.getUser_newpassword()) {
-                config.setPreviousView("SettingsTableViewContr");
+            if (mConfig.getUser_newpassword()) {
+                mConfig.setPreviousView("SettingsTableViewContr");
 
                 //Todo: Add an activity here for updating password
                 MyTools.sharedInstance().displayAlert(this, "updating password activity is opened");
@@ -262,7 +283,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             else {
 
-                if (config.getTokenString().equals("")) {
+                if (mConfig.getTokenString().equals("")) {
 
                     //Todo: Add an activity here for lunching main tabbar
                     Intent intent = new Intent(this, TabMainActivity.class);
@@ -272,20 +293,22 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else {
 
-                    MDBUser.sharedInstance().setUpdateUserToken(this, config, new MDBInterface() {
+                    MDBUser.sharedInstance().setUpdateUserToken(this, mConfig, new MDBInterface() {
 
                         @Override
                         public void completionHandler(Boolean success, final String errorString) {
 
                             if (success) {
 
-                                MyTools.sharedInstance().performUIUpdatesOnMain(getBaseContext(), new MainThreadInterface() {
+                                MyTools.sharedInstance().performUIUpdatesOnMain(LoginActivity.this, new MainThreadInterface() {
 
                                     @Override
                                     public void completionUpdateMain() {
 
                                         //Todo: Add an activity here for lunching main tabbar
                                         Intent intent = new Intent(LoginActivity.this, TabMainActivity.class);
+                                        intent.putExtra(mConfig.getDomaineApp()+"typeListe",0);
+                                        intent.putExtra(mConfig.getDomaineApp()+"typeSListe",0);
                                         startActivity(intent);
 
 
@@ -295,12 +318,12 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             else  {
 
-                                MyTools.sharedInstance().performUIUpdatesOnMain(getBaseContext(), new MainThreadInterface() {
+                                MyTools.sharedInstance().performUIUpdatesOnMain(LoginActivity.this, new MainThreadInterface() {
 
                                     @Override
                                     public void completionUpdateMain() {
                                         setUIEnabled(true);
-                                        MyTools.sharedInstance().displayAlert(getBaseContext(),errorString);
+                                        MyTools.sharedInstance().displayAlert(LoginActivity.this,errorString);
 
 
                                     }
@@ -318,20 +341,20 @@ public class LoginActivity extends AppCompatActivity {
     private void assignUser(User aUser) {
 
 
-        config.setUser_id(aUser.getUser_id());
-        config.setUser_pseudo(aUser.getUser_pseudo());
-        config.setUser_email(aUser.getUser_email());
-        config.setUser_nom(aUser.getUser_nom());
-        config.setUser_prenom(aUser.getUser_prenom());
-        config.setUser_newpassword(aUser.getUser_newpassword());
-        config.setUser_pays(aUser.getUser_pays());
-        config.setUser_ville(aUser.getUser_ville());
-        config.setUser_adresse(aUser.getUser_adresse());
-        config.setUser_codepostal(aUser.getUser_codepostal());
-        config.setVerifpassword("");
-        config.setLevel(aUser.getUser_level());
-        config.setUser_countNote(aUser.getUser_countNote());
-        config.setUser_note(aUser.getUser_note());
+        mConfig.setUser_id(aUser.getUser_id());
+        mConfig.setUser_pseudo(aUser.getUser_pseudo());
+        mConfig.setUser_email(aUser.getUser_email());
+        mConfig.setUser_nom(aUser.getUser_nom());
+        mConfig.setUser_prenom(aUser.getUser_prenom());
+        mConfig.setUser_newpassword(aUser.getUser_newpassword());
+        mConfig.setUser_pays(aUser.getUser_pays());
+        mConfig.setUser_ville(aUser.getUser_ville());
+        mConfig.setUser_adresse(aUser.getUser_adresse());
+        mConfig.setUser_codepostal(aUser.getUser_codepostal());
+        mConfig.setVerifpassword("");
+        mConfig.setLevel(aUser.getUser_level());
+        mConfig.setUser_countNote(aUser.getUser_countNote());
+        mConfig.setUser_note(aUser.getUser_note());
 
     }
 

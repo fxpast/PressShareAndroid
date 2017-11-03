@@ -18,10 +18,11 @@ import android.content.Context;
 import android.widget.ImageView;
 import com.prv.pressshare.R;
 import com.prv.pressshare.utils.MyTools;
-import com.prv.pressshare.views.PhotoRecordState;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.Date;
+
 
 public class Product {
 
@@ -110,16 +111,11 @@ public class Product {
     public Boolean getProd_closed() { return prod_closed;}
     public void setProd_closed(Boolean prod_closed) {this.prod_closed = prod_closed;}
 
-    private PhotoRecordState state;
-    public PhotoRecordState getState() { return state;}
-    public void setState(PhotoRecordState state) {this.state = state;}
-
-
 
 
     public Product(final Context context, JSONObject dico) {
 
-        if (dico.length() > 1) {
+        if (dico != null) {
 
             try {
 
@@ -137,9 +133,9 @@ public class Product {
                 prod_comment = dico.get("prod_comment").toString();
                 prod_tempsDispo = dico.get("prod_tempsDispo").toString();
                 prod_etat= Integer.parseInt(dico.get("prod_etat").toString());
-                prod_hidden= Boolean.parseBoolean(dico.get("prod_hidden").toString());
-                prod_echange= Boolean.parseBoolean(dico.get("prod_echange").toString());
-                prod_closed= Boolean.parseBoolean(dico.get("prod_closed").toString());
+                prod_hidden= dico.get("prod_hidden").toString().equals("1");
+                prod_echange= dico.get("prod_echange").toString().equals("1");
+                prod_closed= dico.get("prod_closed").toString().equals("1");
 
             } catch (JSONException e){
                 e.printStackTrace();
@@ -171,7 +167,6 @@ public class Product {
 
         prod_image = new ImageView(context);
         prod_image.setImageResource(R.drawable.noimage);
-        state = PhotoRecordState.New;
         prodImageOld = "";
 
     }

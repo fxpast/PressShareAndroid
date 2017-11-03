@@ -31,13 +31,14 @@ public class Card {
     public int getUser_id() { return user_id;}
     public void setUser_id(int user_id) {this.user_id = user_id;}
 
+    private String  tokenizedCard;
+    public String getTokenizedCard() { return tokenizedCard;}
+    public void setTokenizedCard(String tokenizedCard) {this.tokenizedCard = tokenizedCard;}
+
     private String  typeCard_ImageUrl;
     public String getTypeCard_ImageUrl() { return typeCard_ImageUrl;}
     public void setTypeCard_ImageUrl(String typeCard_ImageUrl) {this.typeCard_ImageUrl = typeCard_ImageUrl;}
 
-    private String  tokenizedCard;
-    public String getTokenizedCard() { return tokenizedCard;}
-    public void setTokenizedCard(String tokenizedCard) {this.tokenizedCard = tokenizedCard;}
 
     private String  card_lastNumber;
     public String getCard_lastNumber() { return card_lastNumber;}
@@ -52,17 +53,17 @@ public class Card {
 
     public Card(final Context context, JSONObject dico) {
 
-        if (dico.length() > 1) {
+        if (dico != null) {
 
             try {
 
                 card_id= Integer.parseInt(dico.get("card_id").toString());
                 typeCard_id= Integer.parseInt(dico.get("typeCard_id").toString());
                 user_id= Integer.parseInt(dico.get("user_id").toString());
-                typeCard_ImageUrl = dico.get("typeCard_ImageUrl").toString();
                 tokenizedCard = dico.get("tokenizedCard").toString();
                 card_lastNumber = dico.get("card_lastNumber").toString();
-                main_card= Boolean.parseBoolean(dico.get("prod_closed").toString());
+                main_card = dico.get("main_card").toString().equals("1");
+                typeCard_ImageUrl = "";
 
 
             } catch (JSONException e){
@@ -75,11 +76,11 @@ public class Card {
 
             card_id = 0;
             typeCard_id = 0;
-            typeCard_ImageUrl = "";
             user_id = 0;
             tokenizedCard = "";
             card_lastNumber = "";
             main_card = false;
+            typeCard_ImageUrl = "";
 
         }
 

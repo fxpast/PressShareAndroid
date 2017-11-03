@@ -139,7 +139,7 @@ public class User {
 
     public User(JSONObject dico) {
 
-        if (dico.length() > 1) {
+        if (dico != null) {
 
             try {
 
@@ -154,7 +154,8 @@ public class User {
                 user_adresse = dico.get("user_adresse").toString();
                 user_codepostal = dico.get("user_codepostal").toString();
                 user_pays = dico.get("user_pays").toString();
-                user_newpassword= Boolean.parseBoolean(dico.get("user_newpassword").toString());
+                user_ville = dico.get("user_ville").toString();
+                user_newpassword= dico.get("user_newpassword").toString().equals("1");
                 user_tokenPush = dico.get("user_tokenPush").toString();
                 user_braintreeID = dico.get("user_braintreeID").toString();
                 user_countNote= Integer.parseInt(dico.get("user_countNote").toString());

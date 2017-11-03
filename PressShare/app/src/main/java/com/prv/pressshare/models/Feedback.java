@@ -34,7 +34,7 @@ public class Feedback {
 
     public Feedback(final Context context, JSONObject dico) {
 
-        if (dico.length() > 1) {
+        if (dico != null) {
 
             try {
 

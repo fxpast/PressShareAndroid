@@ -17,11 +17,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.prv.pressshare.R;
 import com.prv.pressshare.activities.ProductActivity;
 import com.prv.pressshare.daos.MDBInterfaceArray;
@@ -31,7 +31,7 @@ import com.prv.pressshare.models.Product;
 import com.prv.pressshare.utils.Config;
 import com.prv.pressshare.utils.MainThreadInterface;
 import com.prv.pressshare.utils.MyTools;
-import com.prv.pressshare.views.CustomItem;
+import com.prv.pressshare.views.CustomItemProduct;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,10 +46,10 @@ public class ListProductFragment extends Fragment {
     private Button mIBListProd;
     private Button mIBMesListProd;
     private Button mIBHistProd;
-    private Config mConfig;
+    private Config mConfig = Config.sharedInstance();
     private ListView mIBListListView;
     private EditText mIBListSearchPro;
-    private int mTypeListe = 0; //List :0, MyList :1, Historical:2
+    public int mTypeSListe = 0; //List :0, MyList :1, Historical:2
     private List<Object> mProducts;
 
     public ListProductFragment() {
@@ -69,15 +69,12 @@ public class ListProductFragment extends Fragment {
         mIBListProd = (Button) view.findViewById(R.id.IBListProd);
         mIBMesListProd = (Button) view.findViewById(R.id.IBMesListProd);
         mIBHistProd = (Button) view.findViewById(R.id.IBHistProd);
-        mConfig = Config.sharedInstance();
 
         mIBListProd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                mTypeListe = 0;
-                actionSelectButton(v);
-                ActionSearchProduct(mIBListSearchPro.getText().toString(), mTypeListe);
+             actionListProd(v);
             }
         });
 
@@ -85,9 +82,7 @@ public class ListProductFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                mTypeListe = 1;
-                actionSelectButton(v);
-                actionMenuMyList();
+             actionMesListProd(v);
             }
         });
 
@@ -95,9 +90,7 @@ public class ListProductFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                mTypeListe = 2;
-                actionSelectButton(v);
-                actionMenuHistory();
+             actionHistProd(v);
             }
         });
 
@@ -107,21 +100,42 @@ public class ListProductFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent intent = new Intent(getContext(), ProductActivity.class);
-                Product product =(Product) mProducts.get(position);
 
-                intent.putExtra(mConfig.getDomaineApp()+"prod_id", product.getProd_id());
-                intent.putExtra(mConfig.getDomaineApp()+"typeListe", mTypeListe);
-                startActivity(intent);
+            Product product =(Product) mProducts.get(position);
+
+            Intent intent = new Intent(getContext(), ProductActivity.class);
+            intent.putExtra(mConfig.getDomaineApp()+"prod_id", product.getProd_id());
+            intent.putExtra(mConfig.getDomaineApp()+"typeListe", 1);
+            intent.putExtra(mConfig.getDomaineApp()+"typeSListe", mTypeSListe);
+            startActivity(intent);
+
+
 
             }
         });
 
         mIBListSearchPro = (EditText) view.findViewById(R.id.IBListSearchPro);
-        ActionSearchProduct(mIBListSearchPro.getText().toString(), mTypeListe);
+
+        if (mTypeSListe == 0) {
+
+            actionListProd(mIBListProd);
+
+        } else if (mTypeSListe == 1) {
+
+            actionMesListProd(mIBMesListProd);
+
+        } else if (mTypeSListe == 2) {
+
+            actionHistProd(mIBHistProd);
+
+        }
+
+
+
         mIBListSearchPro.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
                 return false;
             }
         });
@@ -133,7 +147,7 @@ public class ListProductFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                ActionSearchProduct(s.toString(), mTypeListe);
+                ActionSearchProduct(s.toString());
 
             }
 
@@ -143,41 +157,69 @@ public class ListProductFragment extends Fragment {
 
 
         ImageView mIBListLogout = (ImageView) view.findViewById(R.id.IBListLogout);
-        mIBListLogout.setOnTouchListener(new View.OnTouchListener() {
+        mIBListLogout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //action logout
+            public void onClick(View v) {
                 actionLogout();
-                return false;
             }
         });
-
 
 
         ImageView mIBListHelp = (ImageView) view.findViewById(R.id.IBListHelp);
-        mIBListHelp.setOnTouchListener(new View.OnTouchListener() {
+        mIBListHelp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                //Todo Tuto_Presentation
-                MyTools.sharedInstance().showHelp("Tuto_Presentation", getContext());
-                return false;
+            public void onClick(View v) {
+                MyTools.sharedInstance().showHelp("carte_liste", getContext());
             }
         });
-
 
 
         FloatingActionButton mIBListAddProduct = (FloatingActionButton)  view.findViewById(R.id.IBListAddProduct);
         mIBListAddProduct.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                startActivity(new Intent(getContext(), ProductActivity.class));
+                if (mConfig.getLevel() > 0) {
+
+                    Intent intent = new Intent(getContext(), ProductActivity.class);
+                    intent.putExtra(mConfig.getDomaineApp()+"prod_id", 0);
+                    intent.putExtra(mConfig.getDomaineApp()+"typeListe", 1);
+                    intent.putExtra(mConfig.getDomaineApp()+"typeSListe", mTypeSListe);
+                    startActivity(intent);
+
+                }
 
             }
         });
 
 
         return  view;
+    }
+
+
+    private void actionListProd(View v) {
+
+        mTypeSListe = 0;
+        actionSelectButton(v);
+        ActionSearchProduct(mIBListSearchPro.getText().toString());
+
+    }
+
+
+    private void actionMesListProd(View v) {
+
+        mTypeSListe = 1;
+        actionSelectButton(v);
+        actionMenuMyList();
+
+    }
+
+
+    private void actionHistProd(View v) {
+
+        mTypeSListe = 2;
+        actionSelectButton(v);
+        actionMenuHistory();
+
     }
 
 
@@ -196,7 +238,7 @@ public class ListProductFragment extends Fragment {
 
                             @Override
                             public void completionUpdateMain() {
-                                ActionSearchProduct(mIBListSearchPro.getText().toString(), mTypeListe);
+                                ActionSearchProduct(mIBListSearchPro.getText().toString());
 
                             }
                         });
@@ -237,7 +279,7 @@ public class ListProductFragment extends Fragment {
 
                             @Override
                             public void completionUpdateMain() {
-                                ActionSearchProduct(mIBListSearchPro.getText().toString(), mTypeListe);
+                                ActionSearchProduct(mIBListSearchPro.getText().toString());
 
                             }
                         });
@@ -266,18 +308,18 @@ public class ListProductFragment extends Fragment {
 
 
 
-    private void ActionSearchProduct(String value, int  typeListe) {
+    private void ActionSearchProduct(String value) {
 
         mProducts.clear();
         //List
         JSONArray productsJSON = Products.sharedInstance().getProductsArray();
 
-         if (typeListe == 1) {
+         if (mTypeSListe == 1) {
 
             //MyList
             productsJSON = Products.sharedInstance().getProductsUserArray();
 
-        } else  if (typeListe == 2) {
+        } else  if (mTypeSListe == 2) {
 
             //History
             productsJSON = Products.sharedInstance().getProductsTraderArray();
@@ -310,7 +352,7 @@ public class ListProductFragment extends Fragment {
             e.printStackTrace();
         }
 
-        ListAdapter mAdapter = new CustomItem(getContext(),R.layout.list_item, mProducts);
+        ListAdapter mAdapter = new CustomItemProduct(getContext(),R.layout.list_item, mProducts);
         mIBListListView.setAdapter(mAdapter);
 
 
@@ -319,11 +361,13 @@ public class ListProductFragment extends Fragment {
 
     private void  actionLogout() {
 
+
         final SharedPreferences sharedPref = getContext().getSharedPreferences(mConfig.getFileParameters(), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.remove("user_pseudo");
         editor.remove("user_email");
         editor.apply();
+
         getActivity().finish();
 
     }

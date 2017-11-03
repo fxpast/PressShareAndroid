@@ -1,30 +1,56 @@
 package com.prv.pressshare.activities.fragments;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
+import android.os.Environment;
+
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+
 import android.support.v4.app.Fragment;
+
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.prv.pressshare.R;
+import com.prv.pressshare.activities.AbonnerActivity;
+import com.prv.pressshare.activities.ChangePwdActivity;
+import com.prv.pressshare.activities.ListCardActivity;
+import com.prv.pressshare.activities.ListTransactActivity;
+import com.prv.pressshare.activities.MyProfilActivity;
+
 import com.prv.pressshare.utils.Config;
 import com.prv.pressshare.utils.MyTools;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 
 public class SettingsFragment extends Fragment {
 
-    private Config mConfig;
-    private ListView mIBSetListView;
 
+    private Config mConfig = Config.sharedInstance();
+    private ListView mIBSetListView;
+    private ImageView mIBSetImageUser;
+    private static final int CAMERA_REQUEST = 1234;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -36,7 +62,10 @@ public class SettingsFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        mConfig = Config.sharedInstance();
+
+        mConfig.setPreviousView("SettingsTableViewContr");
+
+        mIBSetImageUser = (ImageView) view.findViewById(R.id.IBSetImageUser);
 
         TextView mIBSetTitle = (TextView) view.findViewById(R.id.IBSetTitle);
         mIBSetTitle.setText(mConfig.getUser_pseudo()+"("+mConfig.getUser_id()+")");
@@ -53,66 +82,250 @@ public class SettingsFragment extends Fragment {
         mIBSetListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Todo Settings rows
-                MyTools.sharedInstance().showHelp("click index:"+position, getContext());
+
+                MenuSettings(position);
+
             }
         });
 
 
-        ImageButton mIBSetImageUser = (ImageButton) view.findViewById(R.id.IBSetImageUser);
-
-
         TextView mIBSetProfil = (TextView) view.findViewById(R.id.IBSetProfil);
-        mIBSetProfil.setText(mConfig.getUser_nom()+" "+mConfig.getUser_nom()+" ("+mConfig.getUser_note()+" "+getString(R.string.star)+") "+mConfig.getUser_email());
+        mIBSetProfil.setText(mConfig.getUser_nom()+" "+mConfig.getUser_nom()
+                +" ("+mConfig.getUser_note()+" "+getString(R.string.star)+") "+mConfig.getUser_email());
+
+        chargePhoto();
 
         mIBSetImageUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Todo Open Camera
-                MyTools.sharedInstance().showHelp("Camera is openning", getContext());
+
+                if (mConfig.getLevel() > 0) {
+
+                    callCamera();
+
+                }
+
             }
         });
 
 
         ImageView mIBSetLogout = (ImageView) view.findViewById(R.id.IBSetLogout);
-        mIBSetLogout.setOnTouchListener(new View.OnTouchListener() {
+        mIBSetLogout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //action logout
+            public void onClick(View v) {
                 actionLogout();
-                return false;
             }
         });
 
 
         ImageView mIBSetHelp = (ImageView) view.findViewById(R.id.IBSetHelp);
-        mIBSetHelp.setOnTouchListener(new View.OnTouchListener() {
+        mIBSetHelp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
 
-                //Todo Tuto_Presentation
-                MyTools.sharedInstance().showHelp("Tuto_Presentation", getContext());
-                return false;
+                MyTools.sharedInstance().showHelp("SettingsTableViewContr", getContext());
             }
         });
-
 
 
         return  view;
     }
 
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK && data.getExtras() != null) {
+
+            Bitmap bitmap =  data.getExtras().getParcelable("data");
+            mIBSetImageUser.setImageBitmap(bitmap);
+
+            final File file;
+
+            String state = Environment.getExternalStorageState();
+
+            if (Environment.MEDIA_MOUNTED.equals(state)) {
+
+                file = new File(getContext().getExternalFilesDir(null), mConfig.getDomaineApp()+"photoProfil.jpg");
+
+            } else {
+
+                file = new File(getContext().getFilesDir(), mConfig.getDomaineApp()+"photoProfil.jpg");
+            }
+
+            try {
+
+                file.createNewFile();
+                FileOutputStream ostream = new FileOutputStream(file);
+
+                mIBSetImageUser.setDrawingCacheEnabled(false); //clean cache
+
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
+                ostream.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+    }
+
+
+
+    private void MenuSettings(int position) {
+
+        if (position == 0) {
+
+            if (mConfig.getLevel()>-1) {
+
+                Intent intent = new Intent(getContext(), MyProfilActivity.class);
+                startActivity(intent);
+
+            }
+
+
+        } else if (position == 1) {
+
+            if (mConfig.getLevel()>-1) {
+
+                Intent intent = new Intent(getContext(), ListTransactActivity.class);
+                startActivity(intent);
+            }
+
+
+        } else if (position == 2) {
+
+            if (mConfig.getLevel()>-1) {
+
+                Intent intent = new Intent(getContext(), AbonnerActivity.class);
+                startActivity(intent);
+            }
+
+
+        } else if (position == 3) {
+
+            if (mConfig.getLevel()>-1) {
+
+                Intent intent = new Intent(getContext(), ChangePwdActivity.class);
+                startActivity(intent);
+            }
+
+
+        } else if (position == 4) {
+
+            if (mConfig.getLevel()>-1) {
+
+                Intent intent = new Intent(getContext(), ListCardActivity.class);
+                startActivity(intent);
+            }
+
+        } else if (position == 5) {
+
+            MyTools.sharedInstance().showHelp("Conditions_PressShare", getContext());
+
+        }
+
+
+    }
+
+    private void chargePhoto() {
+
+
+        File file;
+
+        String state = Environment.getExternalStorageState();
+
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+
+            file = new File(getContext().getExternalFilesDir(null), mConfig.getDomaineApp()+"photoProfil.jpg");
+
+        } else {
+
+            file = new File(getContext().getFilesDir(), mConfig.getDomaineApp()+"photoProfil.jpg");
+        }
+
+
+        if (file.exists()) {
+
+            Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
+            Drawable drawable = new BitmapDrawable(getContext().getResources(), bitmap);
+            mIBSetImageUser.setImageDrawable(drawable);
+        }
+        else {
+
+            if (Environment.MEDIA_MOUNTED.equals(state)) {
+
+                file = new File(getContext().getExternalFilesDir(null), mConfig.getDomaineApp()+"photoLoaded.jpg");
+
+            } else {
+
+                file = new File(getContext().getFilesDir(), mConfig.getDomaineApp()+"photoLoaded.jpg");
+            }
+
+            if (file.exists()) {
+
+                Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
+                Drawable drawable = new BitmapDrawable(getContext().getResources(), bitmap);
+                mIBSetImageUser.setImageDrawable(drawable);
+
+                if (Environment.MEDIA_MOUNTED.equals(state)) {
+
+                    file = new File(getContext().getExternalFilesDir(null), mConfig.getDomaineApp()+"photoProfil.jpg");
+
+                } else {
+
+                    file = new File(getContext().getFilesDir(), mConfig.getDomaineApp()+"photoProfil.jpg");
+                }
+
+                try {
+
+                    file.createNewFile();
+                    FileOutputStream ostream = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
+                    ostream.close();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+
+    }
+
+    private void callCamera() {
+
+
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+
+    }
+
+
     private void  actionLogout() {
+
 
         final SharedPreferences sharedPref = getContext().getSharedPreferences(mConfig.getFileParameters(), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.remove("user_pseudo");
         editor.remove("user_email");
         editor.apply();
+
         getActivity().finish();
 
     }
-
 
 
 }

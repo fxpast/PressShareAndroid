@@ -80,7 +80,7 @@ public class ParamTable {
 
     public ParamTable(final Context context, JSONObject dico) {
 
-        if (dico.length() > 1) {
+        if (dico != null) {
 
             try {
 

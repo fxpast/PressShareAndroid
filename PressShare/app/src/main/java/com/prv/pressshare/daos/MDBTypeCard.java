@@ -36,7 +36,7 @@ public class MDBTypeCard {
 
 
 
-    public void  getAllTypeCards(final Context context, final int userId, final MDBInterfaceArray completion) {
+    public void  getAllTypeCards(final Context context,  final MDBInterfaceArray completion) {
 
 
         if (!MyTools.sharedInstance().isConnectedToNetwork(context)) {
