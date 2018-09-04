@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="?attr/actionBarSize"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/gap"
+    android:elevation="2dp"
+    android:textAppearance="@color/abc_primary_text_material_dark"
+    android:background="@drawable/toolbar_custom_background"
+    app:theme="@style/ThemeOverlay.AppCompat.Light"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:id="@+id/IBListCreneauClose"
+            android:layout_width="28dp"
+            android:layout_height="30dp"
+            android:onClick="actionCloseWidows"
+            android:background="@color/cardview_light_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/close"
+            android:layout_marginLeft="0dp"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <TextView
+            android:id="@+id/IBListCreneauTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/timeslot"
+            android:gravity="center"
+            android:background="@color/cardview_light_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@+id/IBListCreneauClose"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintRight_toLeftOf="@+id/IBListCreneauHelp"
+            android:layout_marginRight="8dp" />
+
+
+        <ImageView
+            android:id="@+id/IBListCreneauHelp"
+            android:layout_width="32dp"
+            android:layout_height="28dp"
+            android:onClick="actionListCrenauxHelp"
+            android:background="@color/cardview_light_background"
+            app:srcCompat="@drawable/help"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/IBAddCreneau"
+            app:layout_constraintVertical_bias="1.0"
+            android:layout_marginRight="6dp"/>
+
+        <ImageView
+            android:id="@+id/IBAddCreneau"
+            android:layout_width="32dp"
+            android:layout_height="28dp"
+            android:layout_marginRight="6dp"
+            android:background="@color/cardview_light_background"
+            android:onClick="actionListAddCreneau"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@android:drawable/ic_menu_add" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.Toolbar>

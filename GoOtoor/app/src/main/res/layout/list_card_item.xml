@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardBackgroundColor="@color/colorPrimary"
+    android:id="@+id/IBListCardItemBackgr"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/IBListCardImage"
+            android:layout_width="99dp"
+            android:layout_height="85dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="left|center"
+            android:visibility="visible"/>
+
+        <ProgressBar
+            android:id="@+id/IBListCardProgBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left|center"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/IBListCardText"
+            android:layout_width="200dp"
+            android:layout_height="72dp"
+            android:layout_marginRight="5dp"
+            android:gravity="left|center"
+            android:text="Credit card 4444"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/IBCheckmark"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="5dp"
+            android:gravity="left|center"
+            android:text=" ✓"
+            android:visibility="gone"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+
+
+
+</android.support.v7.widget.CardView>

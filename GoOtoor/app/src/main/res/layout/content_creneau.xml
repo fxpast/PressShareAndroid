@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.prv.gootoor.activities.AddCreneauActivity"
+    tools:showIn="@layout/activity_creneau">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:layout_marginTop="30dp"
+            android:text=""
+            android:hint="@string/dateDebut"
+            android:id="@+id/IBDateDebut" />
+
+        <DatePicker
+            android:id="@+id/IBDateDebutPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:scrollbars="vertical" />
+
+        <TimePicker
+            android:id="@+id/IBTimeDebutPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:scrollbars="vertical"
+            android:timePickerMode="spinner" />
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:layout_marginTop="30dp"
+            android:text=""
+            android:hint="@string/dateFin"
+            android:id="@+id/IBDateFin" />
+
+        <DatePicker
+            android:id="@+id/IBDateFinPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:scrollbars="vertical" />
+
+        <TimePicker
+            android:id="@+id/IBTimeFinPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:scrollbars="vertical"
+            android:timePickerMode="spinner"/>
+
+
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <Switch
+                android:id="@+id/IBNone"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/none"
+                android:onClick="actionNone"/>
+
+            <Switch
+                android:id="@+id/IBDaily"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/daily"
+                android:onClick="actionDaily"/>
+
+            <Switch
+                android:id="@+id/IBWeekly"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="@string/weekly"
+                android:onClick="actionWeekly"/>
+
+        </LinearLayout>
+
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/IBInfoLabel"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/IBInfoLocation"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="@string/tapALoc" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/IBFindOnMap"
+                style="@style/Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:onClick="actionFindMap"
+                android:text="@string/findOnMap"
+                android:textSize="20dp" />
+
+
+            <Button
+                android:id="@+id/IBFindMyPos"
+                style="@style/Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:onClick="actionFindMe"
+                android:text="@string/myPosition"
+                android:textSize="20dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>
